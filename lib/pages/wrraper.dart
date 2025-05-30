@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task/homePage/homePage.dart';
-
-import '../login/login_ui.dart';
 
 class Wrraper extends StatefulWidget {
   const Wrraper({super.key});
@@ -18,10 +17,17 @@ class _WrraperState extends State<Wrraper> {
       body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
             if (snapshot.hasData) {
               return HomePage();
             } else {
-              return Login();
+              // return Get.offAllNamed("login");
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Get.offAllNamed("login");
+              });
+              return Container();
             }
           }),
     );

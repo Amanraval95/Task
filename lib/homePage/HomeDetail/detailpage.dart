@@ -14,37 +14,31 @@ class Detailpage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         body: SafeArea(
-          top: true,
-          child: Stack(
+          child: Column(
             children: [
-              // Image that spans the entire screen
-              CachedNetworkImage(
-                imageUrl: product["image url"],
-                fit: BoxFit.cover,
-                // height: double.infinity,
-                width: MediaQuery.of(context).size.width,
-              ),
-              Column(
-                children: [
-                  // Arc overlay with expanded space below
-                  SizedBox(
-                    height: 300, // Same height as the image
+              VxArc(
+                height: 30,
+                arcType: VxArcType.convex,
+                edge: VxEdge.bottom,
+                child: Container(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: CachedNetworkImage(
+                    imageUrl: product["image url"],
+                    fit: BoxFit.fitWidth,
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height *
+                        0.4, // Adjust as needed
                   ),
-                  Expanded(
-                    child: VxArc(
-                      height: 30,
-                      arcType: VxArcType.convey,
-                      edge: VxEdge.top,
-                      child: Container(
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: double.infinity,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
+              // Expanded(
+              //   child: Container(
+              //     color: Theme.of(context).colorScheme.onPrimary,
+              //     width: double.infinity,
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -24,13 +24,15 @@ class HomePage extends StatelessWidget {
     final productController = Get.put(HomePageController());
     Timer? debounce;
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       appBar: AppBar(
+          scrolledUnderElevation: 0,
           iconTheme:
               IconThemeData(color: Theme.of(context).colorScheme.secondary),
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text("Item List"),
-          titleTextStyle: TextStyle(color: Colors.black),
+          titleTextStyle:
+              TextStyle(color: Theme.of(context).colorScheme.secondary),
           actions: [
             IconButton(
                 onPressed: () {

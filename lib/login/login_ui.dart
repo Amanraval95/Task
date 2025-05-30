@@ -51,7 +51,7 @@ class Login extends StatelessWidget {
                           ),
                           const SizedBox(height: 30),
                           TextFormField(
-                            obscureText: false,
+                            obscureText: true,
                             controller: loginController.passwordController,
                             // focusNode: loginController.PasswordFocus,
                             cursorColor: Colors.black38,

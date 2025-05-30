@@ -83,10 +83,19 @@ class HomePageController extends GetxController {
   }
 
   void decrementQuantity(String productName) {
-    if (quantities.containsKey(productName) && quantities[productName]! > 0) {
-      quantities[productName] = quantities[productName]! - 1;
-      if (quantities[productName] == 0) {
-        quantities.remove(productName);
+    if (cartitems.containsKey(productName)) {
+      final currentQuantity = cartitems[productName]!["quantity"];
+      if (currentQuantity > 1) {
+        cartitems.update(productName, (existingItem) {
+          return {
+            "price": existingItem["price"],
+            "quantity": currentQuantity - 1,
+            "image url": existingItem["image url"]
+          };
+        });
+      } else {
+        // Quantity is 1, so remove the item completely
+        cartitems.remove(productName);
       }
       saveCartData();
     }
