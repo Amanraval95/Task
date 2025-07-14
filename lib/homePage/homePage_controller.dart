@@ -3,21 +3,48 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class HomePageController extends GetxController {
+  List<Map<String, String>> categories = [
+    {
+      "name": "Tomato",
+      "image": "https://i.postimg.cc/85T3nrjR/Tomato-icon.png"
+    },
+    {
+      "name": "Potato",
+      "image": "https://i.postimg.cc/vBpPwgm2/potato-icon.png"
+    },
+    {
+      "name": "Onion",
+      "image": "https://cdn-icons-png.flaticon.com/256/6531/6531396.png"
+    },
+    {
+      "name": "Chilli",
+      "image": "https://cdn-icons-png.flaticon.com/256/6531/6531382.png"
+    },
+    {
+      "name": "Capsicum",
+      "image":
+          "https://i.postimg.cc/VNJysN20/pngtree-bell-pepper-flat-icon-vector-png-image-15525252.png"
+    },
+  ];
+
   final _firestore = FirebaseFirestore.instance;
-  //          TO STORE PRODUCT DATA
-  final RxList<Map<String, dynamic>> _products = <Map<String, dynamic>>[].obs;
 
-  //          GETTER FOR PRODUCT
-  List<Map<String, dynamic>> get products => _products;
+  final RxList<Map<String, dynamic>> _products =
+      <Map<String, dynamic>>[].obs; //          TO STORE PRODUCT DATA
 
-  //          Quantity Tracker
-  final RxMap<String, int> quantities = <String, int>{}.obs;
+  List<Map<String, dynamic>> get products =>
+      _products; //          GETTER FOR PRODUCT
+
+  final RxMap<String, int> quantities =
+      <String, int>{}.obs; //          Quantity Tracker
+
+  //
   final searchQuery = "".obs;
-//            To Store Cart Items
+
   final RxMap<String, Map<String, dynamic>> cartitems =
-      <String, Map<String, dynamic>>{}.obs;
-  //          DEFAULT CATEGORY
-  final RxString selectedCategory = "Tomato".obs;
+      <String, Map<String, dynamic>>{}.obs; //            To Store Cart Items
+
+  final RxString selectedCategory = "Tomato".obs; //          DEFAULT CATEGORY
   final storage = GetStorage();
   @override
   void onInit() {

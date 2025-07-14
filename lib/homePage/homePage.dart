@@ -196,37 +196,14 @@ class HomePage extends StatelessWidget {
 }
 
 Widget _buildCategoryList(HomePageController productController) {
-  List<Map<String, String>> categories = [
-    {
-      "name": "Tomato",
-      "image": "https://i.postimg.cc/85T3nrjR/Tomato-icon.png"
-    },
-    {
-      "name": "Potato",
-      "image": "https://i.postimg.cc/vBpPwgm2/potato-icon.png"
-    },
-    {
-      "name": "Onion",
-      "image": "https://cdn-icons-png.flaticon.com/256/6531/6531396.png"
-    },
-    {
-      "name": "Chilli",
-      "image": "https://cdn-icons-png.flaticon.com/256/6531/6531382.png"
-    },
-    {
-      "name": "Capsicum",
-      "image":
-          "https://i.postimg.cc/VNJysN20/pngtree-bell-pepper-flat-icon-vector-png-image-15525252.png"
-    },
-  ];
   return SizedBox(
     height: 90,
     child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
+        itemCount: productController.categories.length,
         itemBuilder: (context, index) {
-          final category = categories[index];
+          final category = productController.categories[index];
           return GestureDetector(
             onTap: () {
               productController.changeCategory(category["name"]!);
