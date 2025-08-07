@@ -22,7 +22,7 @@ class LoginController extends GetxController {
   // }
 
   /// This method logs in the user using Firebase
-  signIn() async {
+  login() async {
     // TextEditingController passwordController = TextEditingController();
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(
