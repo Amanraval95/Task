@@ -47,8 +47,9 @@ class DrawerPage extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.grey),
-              child: Text("drawer")),
+            decoration: BoxDecoration(color: Colors.grey),
+            child: null,
+          ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text(

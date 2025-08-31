@@ -29,6 +29,8 @@ class LoginController extends GetxController {
             email: emailController.text, password: passwordController.text)
         .then((response) {
       // Login
+      emailController.clear();
+      passwordController.clear();
       Get.toNamed('homepage');
     });
   }

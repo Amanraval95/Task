@@ -78,114 +78,157 @@ class HomePage extends StatelessWidget {
             child: Obx(
               () {
                 final filteredProducts = productController.filteredProducts();
-
-                if (filteredProducts.isEmpty) {
-                  return const Center(child: Text("No Data Found."));
-                }
-                return GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemCount: filteredProducts
-                      .length, // Use null-conditional operator here
-                  itemBuilder: (context, index) {
-                    final product = filteredProducts[index];
-                    final String productName = product["name"] ?? "UnKnown";
-                    final double price = (product["price"] ?? 0).toDouble();
-                    final String imageUrl = product["image url"] ??
-                        "https://via.placeholder.com/150";
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(() => Detailpage(product: product));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Card(
-                          color: Theme.of(context).colorScheme.surface,
-                          elevation: 5,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: Column(
+                return RefreshIndicator(
+                    onRefresh: () async {
+                      await Future.delayed(Duration(seconds: 1));
+                      await productController.fetchProducts();
+                    },
+                    child: filteredProducts.isEmpty
+                        ? ListView(
                             children: [
-                              CachedNetworkImage(
-                                imageUrl: product["image url"] ??
-                                    "https://via.placeholder.com/150",
-                                // Default image
-                                width: double.infinity,
-                                height: 100,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(product["name"] ?? "No Name",
-                                              style: GoogleFonts.nunito(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600)),
-                                          Text(
-                                              indianRupeeFormat
-                                                  .format(product["price"] ?? 0)
-                                                  .toString(),
-                                              style: GoogleFonts.nunito(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 14)),
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 5.0, bottom: 3.0),
-                                      child: Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: TextButton(
-                                          style: TextButton.styleFrom(
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              )),
-                                          onPressed: () {
-                                            productController.addTocart(
-                                                productName, price, imageUrl);
-                                          },
-                                          child: Text(
-                                            "Add to cart",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimary),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                              SizedBox(
+                                height: 300,
+                                child: Center(
+                                  child: Text("No data found"),
                                 ),
                               )
                             ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
+                          )
+                        : GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
+                            itemCount: filteredProducts
+                                .length, // Use null-conditional operator here
+                            itemBuilder: (context, index) {
+                              final product = filteredProducts[index];
+                              final String productName =
+                                  product["name"] ?? "UnKnown";
+                              final double price =
+                                  (product["price"] ?? 0).toDouble();
+                              final String imageUrl = product["image url"] ??
+                                  "https://via.placeholder.com/150";
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(() => Detailpage(product: product));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Card(
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
+                                    elevation: 5,
+                                    clipBehavior: Clip.antiAlias,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        CachedNetworkImage(
+                                          imageUrl: product["image url"] ??
+                                              "https://via.placeholder.com/150",
+                                          // Default image
+                                          width: double.infinity,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              const Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                        product["name"] ??
+                                                            "No Name",
+                                                        style:
+                                                            GoogleFonts.nunito(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600)),
+                                                    Text(
+                                                        indianRupeeFormat
+                                                            .format(product[
+                                                                    "price"] ??
+                                                                0)
+                                                            .toString(),
+                                                        style:
+                                                            GoogleFonts.nunito(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 14)),
+                                                  ],
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 5.0, bottom: 3.0),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .primary,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        )),
+                                                    onPressed: () {
+                                                      productController
+                                                          .addTocart(
+                                                              productName,
+                                                              price,
+                                                              imageUrl);
+                                                    },
+                                                    child: Text(
+                                                      "Add to cart",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 15,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onPrimary),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ));
+                // if (filteredProducts.isEmpty) {
+                //   return const Center(child: Text("No Data Found."));
+                // }
+                // return
               },
             ),
           ),
